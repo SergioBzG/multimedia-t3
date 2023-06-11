@@ -1,11 +1,3 @@
-let sigmaMaxSlider, phiMaxSlider;
-let sigmaDensitySlider, phiDensitySlider;
-let sigmaMaxValue, phiMaxValue;
-let sigmaDensityValue, phiDensityValue;
-
-let radius0_Slider, radius1_Slider;
-let radius0Value, radius1Value;
-
 let offset = 0;
 
 function setup(){
@@ -17,36 +9,6 @@ function setup(){
   strokeWeight(4);
   noFill();
 
-  //Create sliders!
-  radius0Value = createDiv();
-  radius0Value.class("valueDisplay");
-  radius0_Slider = createSlider(0, 200, 130, 1);
-  radius0_Slider.class("Slider");
-
-  radius1Value = createDiv();
-  radius1Value.class("valueDisplay");
-  radius1_Slider = createSlider(0, 200, 80, 1);
-  radius1_Slider.class("Slider");
-
-  sigmaMaxValue = createDiv();
-  sigmaMaxValue.class("valueDisplay");
-  sigmaMaxSlider = createSlider(0, 360, 360, 10);
-  sigmaMaxSlider.class("Slider");
-
-  phiMaxValue = createDiv();
-  phiMaxValue.class("valueDisplay");
-  phiMaxSlider = createSlider(0, 360, 360, 10);
-  phiMaxSlider.class("Slider");
-
-  sigmaDensityValue = createDiv();
-  sigmaDensityValue.class("valueDisplay");
-  sigmaDensitySlider = createSlider(10, 45, 45, 1);
-  sigmaDensitySlider.class("Slider");
-
-  phiDensityValue = createDiv();
-  phiDensityValue.class("valueDisplay");
-  phiDensitySlider = createSlider(10, 45, 45, 1);
-  phiDensitySlider.class("Slider");
 }
 
 function draw(){
