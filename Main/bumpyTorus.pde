@@ -1,10 +1,10 @@
 class BumpyTorus{
   
-  float radius0_Slider=130; //rango 0-200
-  float radius1_Slider=80; //rango 0-200
-  float freqSlider=6; //rango 0-10
-  float freqSlider2=6; //rango 0-10
-  float offset = 0;
+  float radius0_Slider; //rango 0-200
+  float radius1_Slider; //rango 0-200
+  float freqSlider; //rango 0-10
+  float freqSlider2; //rango 0-10
+  float offset;
   
   BumpyTorus(float radius0_Slider, float radius1_Slider, float freqSlider, float freqSlider2, float offset){
     this.radius0_Slider = radius0_Slider;

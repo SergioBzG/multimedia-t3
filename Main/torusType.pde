@@ -1,11 +1,10 @@
 class TorusType{
   
-  float sigmaDensitySlider = 36; //  de 0 a 36
-  float phiDensitySlider = 36; //  de 0 a 36
-  float radius0_Slider = 130; //  de 0 a 200
-  float radius1_Slider = 80; //  de 0 a 200
+  float sigmaDensitySlider; //  de 0 a 36
+  float phiDensitySlider; //  de 0 a 36
+  float radius0_Slider; //  de 0 a 200
+  float radius1_Slider; //  de 0 a 200
   float offset;
-  int[] colors;
   
   TorusType(float sigmaDensitySlider, float phiDensitySlider, float radius0_Slider, float radius1_Slider, float offset){
     this.sigmaDensitySlider = sigmaDensitySlider;

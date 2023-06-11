@@ -1,5 +1,7 @@
 import processing.sound.*;
 import peasy.*;
+import netP5.*;
+import oscP5.*;
 
 PeasyCam camera;
 Amplitude amp;
@@ -10,21 +12,15 @@ TorusLissajous torusL = new TorusLissajous(14, 15, 130, 80, 0);
 TorusType torusT = new TorusType(36, 36, 130, 80, 0);
 BumpyTorus bumpyT = new BumpyTorus(130,80,6,6,0);
 
-int[] colors = new int[10];
+
+int[] colors = {#FF0000, #FF00B3, #5500FF, #00DEFF, #00FF66, #DEFF00, #FF9100};
 
 void setup(){
-  size(800, 800, P3D);
+  size(1920, 1080, P3D);
   colorMode(HSB, 360, 100, 100, 100);
-  camera = new PeasyCam(this, 400, 400, 0, 1000);
+  OscP5 oscP5 = new OscP5(this, 11111);
+  camera = new PeasyCam(this, 960, 540, 0, 1000);
   
-  colors[0] = #FF0000;  
-  colors[1] = #FF00B3; 
-  colors[2] = #5500FF; 
-  colors[3] = #00DEFF;  
-  colors[4] = #00FF66; 
-  colors[5] = #DEFF00;  
-  colors[6] = #FF9100;  
-
   stroke(23, 59, 75);//color name: rakuda-iro
   strokeWeight(5);
   noFill();
@@ -36,31 +32,55 @@ void setup(){
   
 }
 
+void oscEvent(OscMessage oscMessage) {
+  
+  modifyTorusL(torusL, oscMessage.checkAddrPattern("/metro250"));
+  
+  /*if (oscMessage.checkAddrPattern("/metro250")){
+    
+  }else if (oscMessage.checkAddrPattern("/metro500")){
+
+  }else if (oscMessage.checkAddrPattern("/metro1000")){
+
+  }else if (oscMessage.checkAddrPattern("/metro2000")){
+  
+  }*/
+  
+}
+
 void draw(){
+
+  background(43, 19, 100);//color name: torinoko-iro
   
   if (amp.analyze() > 0.2){
-    stroke(colors[int(random(7))]);
-  }
-  
-  background(43, 19, 100);//color name: torinoko-iro
-
+      stroke(colors[int(random(7))]);
+    }
   pushMatrix();
-  translate(200, 200);
+  translate(480, 270);
   torusL.torusLissajous();
   popMatrix();
   
+  if (amp.analyze() > 0.2 && torusT.sigmaDensitySlider < 36){
+      stroke(colors[int(random(7))]);
+    }
   pushMatrix();
-  translate(600, 200);
+  translate(1440, 270);
   torusT.torusType();
   popMatrix();
   
+  if (amp.analyze() > 0.2){
+      stroke(colors[int(random(7))]);
+    }
   pushMatrix();
-  translate(200, 600);
+  translate(480, 810);
   graysK.graysKlein();
   popMatrix();
   
+  if (amp.analyze() > 0.2){
+      stroke(colors[int(random(7))]);
+    }
   pushMatrix();
-  translate(600, 600);
+  translate(1440, 810);
   bumpyT.bumpyTorus();
   popMatrix();
   
@@ -69,35 +89,19 @@ void draw(){
   graysK.offset += radians(0.5);
   bumpyT.offset += radians(0.5);
   
+  
 }
 
-class GraysKlein{
-  
-  float r0 = 60;
-  float r1 = 2.5;
-  float f0 = 3;
-  float f1 = 1;
-  float offset = 0;
-  
-  GraysKlein(float r0, float r1, float f0, float f1, float offset){
-    this.r0 = r0;
-    this.r1 = r1;
-    this.f0 = f0;
-    this.f1 = f1;
-    this.offset = offset;
+
+void modifyTorusL(TorusLissajous TL, boolean m250){
+  if (TL.freqSlider2 > 1 && m250){
+    TL.freqSlider2 -= 0.5;
   }
-  
-  void graysKlein(){
-    for(float theta = 0; theta < radians(360); theta += radians(7)){
-      beginShape();
-      for(float phi = 0; phi < radians(720); phi += radians(7)){
-        float x = r0*((r1 + cos(f0*phi/2.0 + offset) * sin(theta) - sin(f0*phi/2.0) * sin(2*theta)) * cos(f1*phi/2.0));
-        float y = r0*((r1 + cos(f0*phi/2.0) * sin(theta + offset) - sin(f0*phi/2.0) * sin(2*theta)) * sin(f1*phi/2.0));
-        float z = r0*(sin(f0*phi/2.0) * sin(theta) + cos(f0*phi/2.0 + offset) * sin(2*theta));
-        vertex(x, y, z);
-      }
-      endShape(CLOSE);
-    }
+  else if(m250 && TL.radius0_Slider > 10){
+    TL.radius0_Slider -= 5;
+  }else{
+    TL.radius0_Slider = 135;
+    TL.freqSlider = 14;
+    TL.freqSlider2 = 15;
   }
-  
 }
