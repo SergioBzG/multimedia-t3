@@ -12,6 +12,8 @@ TorusLissajous torusL = new TorusLissajous(14, 15, 130, 80, 0);
 TorusType torusT = new TorusType(36, 36, 130, 80, 0);
 BumpyTorus bumpyT = new BumpyTorus(130,80,6,6,0);
 
+boolean ttIncrease = false; 
+
 
 int[] colors = {#FF0000, #FF00B3, #5500FF, #00DEFF, #00FF66, #DEFF00, #FF9100};
 
@@ -35,6 +37,9 @@ void setup(){
 void oscEvent(OscMessage oscMessage) {
   
   modifyTorusL(torusL, oscMessage.checkAddrPattern("/metro250"));
+  modifyTorusT(torusT, oscMessage.checkAddrPattern("/metro500"), oscMessage.checkAddrPattern("/metro1000"));
+  modifyBompyT_GraysK(graysK, bumpyT, oscMessage.checkAddrPattern("/metro2000"));
+
   
   /*if (oscMessage.checkAddrPattern("/metro250")){
     
@@ -97,11 +102,49 @@ void modifyTorusL(TorusLissajous TL, boolean m250){
   if (TL.freqSlider2 > 1 && m250){
     TL.freqSlider2 -= 0.5;
   }
-  else if(m250 && TL.radius0_Slider > 10){
-    TL.radius0_Slider -= 5;
-  }else{
-    TL.radius0_Slider = 135;
-    TL.freqSlider = 14;
+  else if(TL.freqSlider2 <= 1 && m250){
     TL.freqSlider2 = 15;
   }
+  if(TL.radius0_Slider > 10 && m250){
+    TL.radius0_Slider -= 5;
+  }
+  else if(TL.radius0_Slider <= 10 && m250){
+    TL.radius0_Slider = 14;
+  }
+  
+}
+
+void modifyTorusT(TorusType TT, boolean m500, boolean m1000){
+  if (TT.phiDensitySlider > 5 && m500 && !ttIncrease){
+    TT.phiDensitySlider -= 4;
+  }
+  else if(TT.phiDensitySlider < 36 && m500){
+    ttIncrease = true;
+    TT.phiDensitySlider += 6;
+    if(TT.phiDensitySlider >= 36 ){
+      ttIncrease = false;
+    }
+  }
+  
+  if(TT.radius1_Slider < 200 && m1000){
+      TT.radius1_Slider += 10;
+  }
+  else if(TT.radius1_Slider >= 200){
+      TT.radius1_Slider = 50;
+  }
+}
+
+void modifyBompyT_GraysK(GraysKlein GK, BumpyTorus BT, boolean m2000){
+   if(GK.freqSlider > 0 && m2000){
+     GK.freqSlider -= 1;
+   }
+   else if(GK.freqSlider <= 0 && m2000){
+     GK.freqSlider = 4;
+   }
+   if(BT.freqSlider > 0 && m2000){
+     BT.freqSlider -= 2;
+   }
+   else if(BT.freqSlider <= 0 && m2000){
+     BT.freqSlider = 6;
+   }
 }
